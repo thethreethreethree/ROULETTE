@@ -29,13 +29,13 @@ spinButton.addEventListener('click', () => {
 
 function startRolling() {
     slots.forEach(slot => {
-        slot.classList.add('roll-animation'); // Add rolling animation to each slot
+        slot.classList.add('roll-animation'); // Add rolling animation with temporary image
     });
 }
 
 function stopRolling() {
     slots.forEach(slot => {
-        slot.classList.remove('roll-animation'); // Remove rolling animation
+        slot.classList.remove('roll-animation'); // Remove rolling animation and show final image
     });
 }
 
