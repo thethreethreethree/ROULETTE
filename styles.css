@@ -1,3 +1,4 @@
+/* General Styles */
 body {
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
@@ -16,15 +17,16 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Slot Machine Styles */
 .slot-machine {
     display: flex;
     justify-content: center;
     margin: 20px 0;
     padding: 10px;
-    background-image: url('images/slot-machine-bg.png'); /* Background image for the slot machine */
-    background-size: cover; /* Cover the entire slot machine area */
-    border-radius: 15px; /* Rounded corners */
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); /* Shadow effect */
+    background-image: url('images/slot-machine-bg.png');
+    background-size: cover;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
 }
 
 .slot {
@@ -34,11 +36,26 @@ body {
     justify-content: center;
     align-items: center;
     margin: 0 10px;
+    overflow: hidden;
 }
 
 .slot img {
     max-width: 90%;
     max-height: 90%;
+}
+
+/* Rolling Animation */
+@keyframes roll {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-300%);
+    }
+}
+
+.roll-animation {
+    animation: roll 1s cubic-bezier(0.23, 1, 0.32, 1) infinite;
 }
 
 button {
