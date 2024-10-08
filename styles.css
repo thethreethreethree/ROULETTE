@@ -50,12 +50,11 @@ body {
         transform: translateY(0);
     }
     100% {
-        transform: translateY(-300%);
+        transform: translateY(-500%);
     }
 }
 
-.roll-animation img {
-    content: url('images/temp-image.png'); /* Use a temporary image for rolling */
+.roll-animation {
     animation: roll 1s cubic-bezier(0.23, 1, 0.32, 1) infinite;
 }
 
