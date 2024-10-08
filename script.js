@@ -9,22 +9,52 @@ const symbols = [
     { name: 'orange', img: 'images/orange.png' }
 ];
 
-spinButton.addEventListener('click', () => {
-    resultDisplay.textContent = ""; // Clear previous result
-    startRolling(); // Start the animation
+// Function to check if the user has already played
+function checkIfPlayed() {
+    return fetch('/check-ip')
+        .then(response => response.json())
+        .then(data => data.played);
+}
 
-    setTimeout(() => {
-        const results = [];
-        
-        for (let i = 0; i < slots.length; i++) {
-            const randomSymbol = symbols[Math.floor(Math.random() * symbols.length)];
-            slots[i].innerHTML = `<img src="${randomSymbol.img}" alt="${randomSymbol.name}" />`;
-            results.push(randomSymbol.name);
+spinButton.addEventListener('click', () => {
+    checkIfPlayed().then(hasPlayed => {
+        if (hasPlayed) {
+            resultDisplay.textContent = "You've already played!";
+            spinButton.disabled = true; // Disable button if they've already played
+        } else {
+            resultDisplay.textContent = ""; // Clear previous result
+            startRolling(); // Start the animation
+
+            const rolls = 5; // Number of times each slot will roll
+            const duration = 100; // Duration for each roll in milliseconds
+            let totalTime = rolls * duration;
+
+            let results = [];
+
+            slots.forEach((slot, index) => {
+                let currentRoll = 0;
+
+                const rollInterval = setInterval(() => {
+                    const randomSymbol = symbols[Math.floor(Math.random() * symbols.length)];
+                    slot.innerHTML = `<img src="${randomSymbol.img}" alt="${randomSymbol.name}" />`;
+                    currentRoll++;
+
+                    if (currentRoll === rolls) {
+                        clearInterval(rollInterval);
+                        // After rolling, select a final symbol
+                        const finalSymbol = symbols[Math.floor(Math.random() * symbols.length)];
+                        results[index] = finalSymbol.name;
+                        slot.innerHTML = `<img src="${finalSymbol.img}" alt="${finalSymbol.name}" />`;
+                    }
+                }, duration);
+            });
+
+            setTimeout(() => {
+                stopRolling(); // Stop the animation
+                checkResult(results); // Check if the player won
+            }, totalTime + 500); // Wait for the rolling to finish + some buffer time
         }
-        
-        stopRolling(); // Stop the animation
-        checkResult(results); // Check if the player won
-    }, 2000); // Set timeout to simulate rolling duration (2 seconds)
+    });
 });
 
 function startRolling() {
