@@ -10,16 +10,34 @@ const symbols = [
 ];
 
 spinButton.addEventListener('click', () => {
-    const results = [];
-    
-    for (let i = 0; i < slots.length; i++) {
-        const randomSymbol = symbols[Math.floor(Math.random() * symbols.length)];
-        slots[i].innerHTML = `<img src="${randomSymbol.img}" alt="${randomSymbol.name}" />`;
-        results.push(randomSymbol.name);
-    }
-    
-    checkResult(results);
+    resultDisplay.textContent = ""; // Clear previous result
+    startRolling(); // Start the animation
+
+    setTimeout(() => {
+        const results = [];
+        
+        for (let i = 0; i < slots.length; i++) {
+            const randomSymbol = symbols[Math.floor(Math.random() * symbols.length)];
+            slots[i].innerHTML = `<img src="${randomSymbol.img}" alt="${randomSymbol.name}" />`;
+            results.push(randomSymbol.name);
+        }
+        
+        stopRolling(); // Stop the animation
+        checkResult(results); // Check if the player won
+    }, 2000); // Set timeout to simulate rolling duration (2 seconds)
 });
+
+function startRolling() {
+    slots.forEach(slot => {
+        slot.classList.add('roll-animation'); // Add rolling animation to each slot
+    });
+}
+
+function stopRolling() {
+    slots.forEach(slot => {
+        slot.classList.remove('roll-animation'); // Remove rolling animation
+    });
+}
 
 function checkResult(results) {
     if (results[0] === results[1] && results[1] === results[2]) {
